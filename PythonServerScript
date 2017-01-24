@@ -9,20 +9,19 @@ sock.listen(5)
 
 mutex_print = Lock()
 
-mutex_print.acquire()
-try:
-    print(active_count())
-finally:
-    mutex_print.release()
-
-def thread_client_socket(conn):
+def thread_client_socket(conn, addr):
+    mutex_print.acquire()
+    try:
+        print(str(addr)+' connected')
+    finally:
+        mutex_print.release()
     while True:
         try:
             while True:
                 data = conn.recv(16)
                 mutex_print.acquire()
                 try:
-                    print(str(data))
+                    print(str(addr)+':'+str(data.decode()))
                 finally:
                     mutex_print.release()
                 if not data:
@@ -32,17 +31,17 @@ def thread_client_socket(conn):
             break
     mutex_print.acquire()
     try:
-        print('this thread is done')
+        print(str(addr)+' disconnected')
     finally:
         mutex_print.release()
     
 
 while True:
     connection, client_address = sock.accept()#stalling
-    thread = Thread(target = thread_client_socket, args = (connection,))
+    thread = Thread(target = thread_client_socket, args = (connection, client_address))
     thread.start()
     mutex_print.acquire()
     try:
-        print(active_count())
+        print('number of threads: '+str(active_count()))
     finally:
         mutex_print.release()
