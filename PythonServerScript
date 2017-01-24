@@ -15,8 +15,6 @@ try:
 finally:
     mutex_print.release()
 
-threads = []
-
 def thread_client_socket(conn):
     while True:
         try:
