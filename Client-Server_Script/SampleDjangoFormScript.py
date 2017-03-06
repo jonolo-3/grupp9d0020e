@@ -33,13 +33,18 @@ def stop(ip):
     found = 0
     i = 0
     for clients in clientSockets:
-        if (clients[0] == ip):  
-            data = 'stop'
-            sock = clients[1]
-            sock.send(data.encode())
-            sock.close()
-            clientSockets.pop(i)
-            found = 1
+        if (clients[0] == ip):
+            try:
+                sock = clients[1]
+                data = 'stop'
+                sock.send(data.encode())
+                sock.close()
+            except Exception as e:
+                print('Something went wrong while trying to close that socket...')
+                print('Client is probably down, removing socket...')
+            finally:
+                clientSockets.pop(i)
+                found = 1
     if(found == 0):
         print('IP not found...')
     i+=1
