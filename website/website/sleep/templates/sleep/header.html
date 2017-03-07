@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %} Beddit-Sleep tracker {% endblock %}</title>
+  <!-- Loads the path to your static files -->
+  {% load staticfiles %}
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+   integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link href='https://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" type="text/css" href="{% static 'sleep/css/style.css' %}"/>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="{% static 'sleep/js/canvasjs.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'sleep/js/jquery-1.12.2.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'sleep/js/reconnecting-websocket.min.js' %}"></script>
+
+</head>
+<body>
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+
+        <!-- Header -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#topNavBar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a href="/" class="navbar-brand">Data Trackers</a>
+        </div>
+
+        <!-- Items -->
+        <div class="collapse navbar-collapse" id="topNavBar">
+
+
+
+          <ul class="nav navbar-nav navbar-right">
+            <li class="">
+              <a href="">
+                History
+              </a>
+            </li>
+            <li class="">
+              <a href="/ip/">
+                Enter IP
+              </a>
+            </li>
+            <li class="">
+              <a href="#">
+                <span class="glyphicon glyphicon-log-in"></span>&nbsp; Log in
+              </a>
+            </li>
+              <li class="">
+              <a href="/register/">
+                <span class="glyphicon glyphicon-pencil"></span>&nbsp; Register
+              </a>
+            </li>
+          </ul>
+
+        </div>
+    </div>
+  </nav>
+  {% block content %}
+    <p> {{context}} </p>
+  {% endblock %}
+</body>
+</html>

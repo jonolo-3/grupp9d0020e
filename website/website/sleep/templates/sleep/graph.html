@@ -1,0 +1,79 @@
+{% extends "sleep/header.html" %}
+
+{% block content %}
+<script type="text/javascript">
+window.onload = function () {
+  var dataPoints = [];
+  var datalength = 20;
+  var chart = new CanvasJS.Chart("chartContainer",
+  {
+    zoomEnabled: true,
+    panEnabled: true,
+
+    title:{
+      text: "Simulated data"
+    },
+
+    axisX:{
+        title: "Time(seconds)"
+    },
+    data : [{
+      type  : "spline",
+      dataPoints : dataPoints
+
+      }]
+
+    });
+  chart.render();
+
+  xVal = 0;
+  var updateChart = function(senseValue){
+    console.log(senseValue + " Sense value");
+
+    yVal = senseValue;
+    i = 0;
+    for(i; i<dataPoints.length;i++){
+      console.log(dataPoints[i].y + " dp");
+    }
+    console.log(dataPoints);
+    dataPoints.push({
+      x : xVal,
+      y : yVal
+    });
+    xVal = xVal +1;
+    if(dataPoints.length > datalength){
+      dataPoints.shift();
+    }
+    chart.render();
+
+  };
+
+  $(function () {
+    var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
+    //var ws_path = ws_scheme + '://' + window.location.host + "/values/";                           //+window.location.pathname + "stream/"
+    var ws_path = ws_scheme + '://' + window.location.host  + window.location.pathname + "values/"
+    console.log("Connecting to " + ws_path);
+    var socket = new ReconnectingWebSocket(ws_path);
+
+    socket.onmessage = function(message){
+      console.log("Got message " + message.data);
+      var sensdata = JSON.parse(message.data);
+      document.getElementById("value").innerHTML = "Sensor value: " + message.data;
+
+      updateChart(sensdata);
+    };
+
+  });
+
+}
+
+</script>
+
+
+<p id="value"></p>
+<div id="chartContainer" style="height: 300px; width: 100%;">
+</div>
+
+<a href="{% url 'sleep:stopGraph' %}"><button type="button" class="btn btn-danger">Stop</button></a>
+
+{% endblock %}

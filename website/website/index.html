@@ -1,0 +1,71 @@
+{% extends "sleep/header.html" %}
+
+{% block content %}
+<script type="text/javascript">
+window.onload = function () {
+  var dataPoints = [];
+  var chart = new CanvasJS.Chart("chartContainer",
+  {
+    zoomEnabled: true,
+    panEnabled: true,
+    title:{
+      text: "Beddit Real time data"
+    },
+    data : [{
+      type  : "spline",
+      dataPoints : dataPoints
+      }]
+
+    });
+  chart.render();
+
+  var updateChart = function(senseValue){
+    console.log(senseValue + " Sense value");
+    yVal = senseValue;
+    i = 0
+    for(i; i<dataPoints.length;i++){
+      console.log(dataPoints[i].y + " dp");
+    }
+    console.log(dataPoints);
+    dataPoints.push({
+      y : yVal
+    });
+    chart.render();
+
+  };
+
+  $(function () {
+    var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
+    var ws_path = ws_scheme + '://' + window.location.host + "/values/";                           //+window.location.pathname + "stream/"
+    console.log("Connecting to " + ws_path);
+    var socket = new ReconnectingWebSocket(ws_path);
+
+    socket.onmessage = function(message){
+      console.log("Got message " + message.data);
+      var sensdata = JSON.parse(message.data);
+      document.getElementById("value").innerHTML = "Sensor value: " + message.data;
+
+      updateChart(sensdata);
+    };
+
+  });
+
+  var yVal = 0;
+
+
+
+
+}
+
+
+
+
+</script>
+
+<h3>Welcome to Beddit sleep tracker.</h3>
+<p>We are 5 student who have worked on a web app that displays real time sleep tracking data from a beddit sensor.</p>
+<p id="value"></p>
+<div id="chartContainer" style="height: 300px; width: 100%;">
+</div>
+
+{% endblock %}

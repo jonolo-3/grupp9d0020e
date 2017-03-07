@@ -1,0 +1,14 @@
+{% extends "sleep/header.html" %}
+{% block title %} Login page {% endblock %}
+
+<!-- TODO-->
+
+{% block content %}
+    <b> Register here </b>
+    <form class="form-vertical" action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form.as_p}}
+        <input type="submit" value="Register">
+
+    </form>
+{% endblock %}
