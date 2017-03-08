@@ -17,4 +17,19 @@ When that's done, activate the venv, upgrade pip and install Django (we used Dja
 ```
 ### Installing Channels 
 
+Channels is available on PyPI - to install it, just run::
+
+    pip install -U channels
+
+Once that's done, you should add ``channels`` to your
+``INSTALLED_APPS`` setting::
+
+    INSTALLED_APPS = (
+        'django.contrib.auth',
+        'django.contrib.contenttypes',
+        'django.contrib.sessions',
+        'django.contrib.sites',
+        ...
+        'channels',
+    )
 
