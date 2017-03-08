@@ -7,6 +7,7 @@ import socket
 
 
 def message_handler(message_string, identifier):
+
     try:
         message_type = message_string[0]
         message_string = message_string[1:]
@@ -29,6 +30,9 @@ def message_handler(message_string, identifier):
     except:
         print("bad message!")
 
+
+    return identifier
+
 def thread_client_socket(conn, addr):
 
     identifier = '0'
@@ -45,7 +49,10 @@ def thread_client_socket(conn, addr):
                 try:
 
                     ##print(str(addr)+':'+str(data.decode()))
-                    message_handler(str(data.decode()), identifier)
+                    identifier = message_handler(str(data.decode()), identifier)
+                    print (identifier)
+
+                    #### HERE WE CAN USE IDENTIFIER ####
 
                 finally:
                     mutex_print.release()
