@@ -1,15 +1,37 @@
-from threading import Thread, Lock, active_count
 import time
+from random import randint
+
+from threading import Thread, Lock, active_count
+
 import socket
 
-sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server_address = ('localhost', 10000)
-sock.bind(server_address)
-sock.listen(5)
 
-mutex_print = Lock()
+def message_handler(message_string, identifier):
+    try:
+        message_type = message_string[0]
+        message_string = message_string[1:]
+        if message_type == '0':
+            ##message_string == graph value
+            print("message received", message_string)
+
+            #OBS message can be the empty string ""
+            
+        elif message_type == '1':
+            ##message_string == id
+            identifier = message_string
+
+            #for testing:
+            print("identifier set to", message_string)
+
+            #OBS identifier can be set to the empty string ""
+        else:
+            print("unknown message_type")
+    except:
+        print("bad message!")
 
 def thread_client_socket(conn, addr):
+
+    identifier = '0'
     mutex_print.acquire()
     try:
         print(str(addr)+' connected')
@@ -21,7 +43,10 @@ def thread_client_socket(conn, addr):
                 data = conn.recv(16)
                 mutex_print.acquire()
                 try:
-                    print(str(addr)+':'+str(data.decode()))
+
+                    ##print(str(addr)+':'+str(data.decode()))
+                    message_handler(str(data.decode()), identifier)
+
                 finally:
                     mutex_print.release()
                 if not data:
@@ -34,7 +59,17 @@ def thread_client_socket(conn, addr):
         print(str(addr)+' disconnected')
     finally:
         mutex_print.release()
-    
+
+
+
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server_address = ('localhost', 10000)
+sock.bind(server_address)
+sock.listen(5)
+
+mutex_print = Lock()
+
+
 
 while True:
     connection, client_address = sock.accept()#stalling
