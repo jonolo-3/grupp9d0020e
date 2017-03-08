@@ -34,3 +34,8 @@ Once that's done, you should add ``channels`` to your
         'channels',
     )
 For further documentation, visit https://channels.readthedocs.io/en/stable/index.html
+You will also have to install Redis.
+Run ``python setup.py install`` to install,
+or place ``django_redis`` on your Python path.
+
+You can also install it with: ``pip install django-redis``
