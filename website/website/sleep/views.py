@@ -10,6 +10,7 @@ from django.contrib.sessions.backends.db import SessionStore
 
 from netaddr import *
 
+from random import randint
 
 
 def base(request):
@@ -47,7 +48,7 @@ class UserFormView(View):
             if user is not None:
                 if  user.is_active:
                     login(request, user)
-                    return redirect('sleep:index')
+                    return redirect('sleep:home')
 
         return render(request, self.template_name, {'form': form})
 
@@ -65,17 +66,18 @@ class ipHandling(View):
         ip = request.POST["ip_address"]
         if form.is_valid():
             validate_ipv46_address(ip)
-            start(ip)
+            channel_id = str(23233)
+            start(ip, channel_id)
             #start session with id based on ip->id conversion
             #ses_id = str(int(netaddr.IPAddress(ip)))
-            s = SessionStore()
-            ses_id = str(40)
-            s['session_id'] = ses_id
-            s.create()
+            # s = SessionStore()
+            # ses_id = str(40)
+            # s['session_id'] = ses_id
+            # s.create()
 
             #request.session['session_id'] = ses_id
-            print(ses_id, "sesid")
-            return redirect('sleep:graph', id=ses_id)
+            #print(ses_id, "sesid")
+            return redirect('sleep:graph', id=channel_id)
 
 
         return render(request,self.template_name,{'form':form})

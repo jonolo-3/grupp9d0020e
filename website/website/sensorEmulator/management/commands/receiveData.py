@@ -17,38 +17,38 @@ class Command(BaseCommand):
     # Show this when the user types help
     print("Simulates data values from a beddit sensor.")
 
+    #source = str(request.session['session_id'])
 
 
 
     # A command must define handle()
     def handle(self, *args, **options):
 
-        #while True:
+        def message_handler(message_string, identifier):
+            try:
+                message_type = message_string[0]
+                message_string = message_string[1:]
+                if message_type == '0':
+                    ##message_string == graph value
+                    print("message received", message_string)
 
-            # print("RECIEVEEEEEEEEEEEEEEEEEEEEEEEE")
-            #
-            # #source = str(request.session['session_id'])
-            # source = str(37)
-            # #print("source:",source, " ", "value:", str(data.decode()))
-            #
-            # #print(str(addr)+':'+str(data.decode()))
-            # #Group(source).send({'text': str(data.decode())})
-            # data = 344
-            # Group(source).send({'text': str(data)})
-            #
-            # #print(str(addr)+':'+str(data.decode()))
-            # #Group("values").send({'text': str(data.decode())})
-            # time.sleep(1)
+                    #OBS message can be the empty string ""
 
+                elif message_type == '1':
+                    ##message_string == id
+                    identifier = message_string
 
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        server_address = ('', 10000)
-        sock.bind(server_address)
-        sock.listen(5)
+                    #for testing:
+                    print("identifier set to", message_string)
 
-        mutex_print = Lock()
+                    #OBS identifier can be set to the empty string ""
+                else:
+                    print("unknown message_type")
+            except:
+                print("bad message!")
 
         def thread_client_socket(conn, addr):
+            identifier = '0'
             mutex_print.acquire()
             try:
                 print(str(addr)+' connected')
@@ -61,33 +61,8 @@ class Command(BaseCommand):
                         mutex_print.acquire()
                         try:
 
-                            #print("RECIEVEEEEEEEEEEEEEEEEEEEEEEEE")
-                            #source = str(request.session['session_id'])
-                            #print("source:",source, " ", "value:", str(data.decode()))
-
-                            # print(str(addr)+':'+str(data.decode()))
-                            #Group(source).send({'text': str(data.decode())})
-                            #print(str(addr)+':'+str(data.decode()))
-                            #Group("values").send({'text': str(data.decode())})
-
-                            print("RECIEVEEEEEEEEEEEEEEEEEEEEEEEE")
-                            #
-                            #global request
-                            # if 'session_id' in request.session:
-                            #     print("dejidjeijd")
-                            #     source = str(request.session['session_id'])
-                            print(str(addr), "ADDRESSSSS")
-                            source = str(37)
-                            # #print("source:",source, " ", "value:", str(data.decode()))
-                            #
-                            # #print(str(addr)+':'+str(data.decode()))
-                            # Group(source).send({'text': str(data.decode())})
-                            data = 344
-                            Group(source).send({'text': str(data)})
-                            #
-                            # #print(str(addr)+':'+str(data.decode()))
-                            # #Group("values").send({'text': str(data.decode())})
-                            # time.sleep(1)
+                            ##print(str(addr)+':'+str(data.decode()))
+                            message_handler(str(data.decode()), identifier)
 
                         finally:
                             mutex_print.release()
@@ -101,6 +76,15 @@ class Command(BaseCommand):
                 print(str(addr)+' disconnected')
             finally:
                 mutex_print.release()
+
+
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        server_address = ('localhost', 10000)
+        sock.bind(server_address)
+        sock.listen(5)
+
+        mutex_print = Lock()
+
 
         while True:
             connection, client_address = sock.accept()#stalling
