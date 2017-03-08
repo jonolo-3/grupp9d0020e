@@ -41,3 +41,8 @@ Run ``python setup.py install`` to install,
 or place ``django_redis`` on your Python path.
 
 You can also install it with: ``pip install django-redis``
+
+## Built With
+
+* [Python](https://www.python.org/) - Python3 
+* [Django](https://www.djangoproject.com/) - The web framework used.
