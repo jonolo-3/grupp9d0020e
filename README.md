@@ -32,4 +32,4 @@ Once that's done, you should add ``channels`` to your
         ...
         'channels',
     )
-
+For further documentation, visit https://channels.readthedocs.io/en/stable/index.html
