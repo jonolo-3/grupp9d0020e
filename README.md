@@ -15,5 +15,6 @@ When that's done, activate the venv, upgrade pip and install Django (we used Dja
 4. (myvenv) ~$ pip install --upgrade
 5. (myvenv) ~$ pip install django~=1.10.0
 ```
+### Installing Channels 
 
 
