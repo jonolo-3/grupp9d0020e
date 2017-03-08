@@ -9,11 +9,11 @@ And then you need to make the directory where ```venv``` is the name of the dire
 ```
 2. $ python3 -m venv myvenv
 ```
-When that's done, activate the venv and install Django (we used Django 1.10.0).
+When that's done, activate the venv, upgrade pip and install Django (we used Django 1.10.0).
 ```
 3. $ source bin/activate
-4. (myvenv) ~$ pip install --upgrade   - installing latest pip
-5. (myvenv) ~$ pip install django~=1.10.0   - installing Django v.1.10.0
+4. (myvenv) ~$ pip install --upgrade
+5. (myvenv) ~$ pip install django~=1.10.0
 ```
 
 
