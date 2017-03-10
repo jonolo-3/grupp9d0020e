@@ -27,5 +27,6 @@ The connection procedure for the ClientScript to the django server looks like:
 ```
 ##ClientScript.py API
 A certain pattern needs to be followed if you want to modify or create your own ClientScript.
+
 --Coming soon
 
