@@ -1,0 +1,12 @@
+{% extends "header.html" %}
+{% block title %} Django4lyf {% endblock %}
+
+{% block content %}
+    <h3> Enter IP-address of client </h3> <br>
+
+    <form class="form-vertical" action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form.as_p}}
+        <input type="submit" value="Connect" name="ipaddress">
+    </form>
+{% endblock %}
